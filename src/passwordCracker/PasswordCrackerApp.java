@@ -13,7 +13,6 @@ public class PasswordCrackerApp  {
     
     public static void main(String[] args) {
         Controller control = new Controller();
-        System.out.println("This is the Final Deliverable");
     }
     
 }
