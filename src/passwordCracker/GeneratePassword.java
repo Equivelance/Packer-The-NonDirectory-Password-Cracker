@@ -13,6 +13,7 @@ public class GeneratePassword {
     
     public GeneratePassword() {
         savePassList = false;
+        
     }
 
     public void siftGenInfo(ArrayList<Boolean> checkBoxes, ArrayList<String> textBoxes) {
@@ -35,6 +36,8 @@ public class GeneratePassword {
     
     public ArrayList<Passwords> generatePasswords() {
         ArrayList<Passwords> genPasswords = new ArrayList<>();
+        
+        initiateOptions();
         
         if (maxLength  != 0) {
             
@@ -59,7 +62,12 @@ public class GeneratePassword {
         return genPasswords;
     }
     
+    private void initiateOptions () {
+        
+        
+    }
     /*
+    
     public String chooseNextLetter (String word) {
         
         

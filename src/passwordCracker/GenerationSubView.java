@@ -128,7 +128,7 @@ public class GenerationSubView extends JFrame {
                 
         if (hasError) {
             errorLabel.setText(errorMessage);
-            System.out.println(errorMessage); //DEBUG
+            //System.out.println(errorMessage); //DEBUG
         }
         else {
             errorLabel.setText(" ");
