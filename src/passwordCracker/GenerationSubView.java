@@ -30,11 +30,11 @@ public class GenerationSubView extends JFrame {
     
     private void createWindow() {
         setTitle("Password Cracker");
-        setSize(600, 300);
+        setSize(1000, 300);
         setLocationRelativeTo(null);  // center the frame
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel mainPanel = new JPanel(new GridLayout(7,2));
+        JPanel mainPanel = new JPanel(new GridLayout(9,2));
         
         show1 = new JCheckBox("Miniumum Password Length");
         mainPanel.add(show1);
@@ -46,16 +46,18 @@ public class GenerationSubView extends JFrame {
         maxPassLenText = new JTextField (15);
         mainPanel.add(maxPassLenText);
         
-        show3 = new JCheckBox ("Known Characters");
+        show3 = new JCheckBox ("Known Character Patterns");
         mainPanel.add(show3);
         
         knownCharsText = new JTextField ("word1, w0Rd2", 50);
         mainPanel.add(knownCharsText);
         
-        show4 = new JCheckBox ("Ignored Charcters");
+        show4 = new JCheckBox ("Used Characters");
         mainPanel.add(show4);
-        ignoredCharsText = new JTextField ("&,%,^,*", 50);
+        ignoredCharsText = new JTextField ("a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z", 200);
         mainPanel.add(ignoredCharsText);
+        
+        
         
         show5 = new JCheckBox ("Save Library in .txt file");
         mainPanel.add(show5);
@@ -95,6 +97,8 @@ public class GenerationSubView extends JFrame {
         //Create Settings Save file for Deliverable 3
     }
     
+    
+    //FIX SO IT ONLY PRINTS WARNING IF ITEM IS SELECTED AND WILL NOT ACCEPT A BLANK BOX
     public void generateErrorMessage() {
         boolean hasError = false;
         String errorMessage = "Please Re-Enter ";
@@ -122,7 +126,7 @@ public class GenerationSubView extends JFrame {
         for (int i = 0; i < tempIgnore.length; i++ ) {
             if (tempIgnore[i].length() > 1 ) {
                 hasError = true;
-                errorMessage += "IgnoredCharsText: ";
+                errorMessage += "Used Characters Text: ";
             }
         }
                 

@@ -72,8 +72,10 @@ public class PasteSubView extends JFrame {
 
         setContentPane(new JPanel(new BorderLayout()));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
+        //System.out.println("Initialized PasteSettings");
     }
-
+    
+    //COPY SAVE SETTINGS CODE FROM GENERATION VIEW
     public void saveSettings() {
 
     }
