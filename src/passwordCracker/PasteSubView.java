@@ -2,6 +2,7 @@ package passwordCracker;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -74,10 +75,43 @@ public class PasteSubView extends JFrame {
         getContentPane().add(mainPanel, BorderLayout.CENTER);
         //System.out.println("Initialized PasteSettings");
     }
-    
+
     //COPY SAVE SETTINGS CODE FROM GENERATION VIEW
     public void saveSettings() {
+        boolean hasError = false;
+        String errorMessage = "Please Re-Enter ";
 
+        if (Pattern.matches("[a-zA-Z]+", pasteDelayText.getText())) {
+            hasError = true;
+            errorMessage += "Paste Delay; ";
+        }
+
+        /*
+        if (isPress2) {
+            String[] tempKnown = knownCharsText.getText().split(",");
+            for (int i = 0; i < tempKnown.length; i++ ) {
+                if (tempKnown[i].length() > Integer.parseInt(maxPassLenText.getText())) {
+                    hasError = true;
+                    errorMessage += "Known Characters; ";
+                }
+            }
+        }
+       
+        String[] tempIgnore = usedCharsText.getText().split(",");
+        for (int i = 0; i < tempIgnore.length; i++ ) {
+            if (tempIgnore[i].length() > 1 ) {
+                hasError = true;
+                errorMessage += "Used Characters Text: ";
+            }
+        }
+         */
+        if (hasError) {
+            //errorLabel.setText(errorMessage);
+            //System.out.println(errorMessage); //DEBUG
+        } else {
+            //errorLabel.setText(" ");
+            dispose();
+        }
     }
 
 }

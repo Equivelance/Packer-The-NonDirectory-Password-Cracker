@@ -7,10 +7,14 @@ public class PasswordModel {
     private ArrayList<Passwords> passwordList; //named passwords as Password already existed
     private ReadFile readFile;
     private GeneratePassword genPass;
+    private PastePassword pastePass;
+
+    private boolean isWindowsBool;
 
     public PasswordModel() {
         readFile = new ReadFile();
-        genPass = new GeneratePassword();
+        genPass = new GeneratePassword(readFile);
+        pastePass = new PastePassword();
     }
 
     public ReadFile getReadFile() {
@@ -20,16 +24,23 @@ public class PasswordModel {
         return readFile;
     }
 
-    public void savePasswordList() {
+    public void crackPassword(boolean genPassBool, boolean isWindowsBool) {
+        if (genPassBool) {
+            if (!passwordList.isEmpty()) {
+                passwordList.clear();
+            }
 
+            passwordList.addAll(genPass.generatePasswords());
+        }
+        
     }
 
-    public void importPasswordList() { //Put into a separate method for organization
+    private void importPasswordList() { //Put into a separate method for organization
         passwordList = readFile.addPasswordsToList();
     }
 
     //----------------------DEBUG-----------------------------
-    public void recitePasswordList() {
+    private void recitePasswordList() {
         passwordList.forEach((password) -> {
             System.out.println(password.getPassword());
         });

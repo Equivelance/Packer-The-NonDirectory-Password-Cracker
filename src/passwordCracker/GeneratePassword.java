@@ -1,18 +1,23 @@
 package passwordCracker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GeneratePassword {
 
+    private ReadFile readFile;
     private int maxLength;
     private int minLength;
-    private String[] knownChars;
-    private char[] usedChars;
+    private String[] knownChars; //known Chars = combination of chars
+    private char[] usedChars; //Letters used for password generation
     private String passwordFormat;
     private boolean savePassList;
 
-    public GeneratePassword() {
-        savePassList = false;
+    public GeneratePassword(ReadFile readFile) {
+        //savePassList = false;
+        this.readFile = readFile;
+        minLength = 0;  //Default Minimum Length
+        maxLength = 15; //Default Maximum Length
 
     }
 
@@ -37,23 +42,31 @@ public class GeneratePassword {
     public ArrayList<Passwords> generatePasswords() {
         ArrayList<Passwords> genPasswords = new ArrayList<>();
 
+        ArrayList<String> usedLetters = new ArrayList<>();
+
         if (usedChars == null) {
             usedChars = getAllChars();
         }
 
+        for (char chars : usedChars) {
+            String tempWord = "" + chars;
+            usedLetters.add(tempWord);
+        }
+
         if (knownChars != null) {
-
+            usedLetters.addAll(Arrays.asList(knownChars));
         }
 
-        if (maxLength != 0) {
+        String currentWord = "";
 
+        computeWords(currentWord, usedLetters, genPasswords);
+
+        /*
+        while (currentWord.length() < maxLength) {
+            computeWords(currentWord, usedLetters, genPasswords);
         }
-
+         */
         if (minLength != 0) {
-
-        }
-
-        if (usedChars != null) {
 
         }
 
@@ -61,7 +74,33 @@ public class GeneratePassword {
 
         }
 
+        if (savePassList) {
+            readFile.writeToFile("passwords.txt", true, genPasswords);
+        }
+
         return genPasswords;
+    }
+
+    private void computeWords(String currentWord, ArrayList<String> usedLetters, ArrayList<Passwords> genPasswords) {
+        for (String letter : usedLetters) {
+            String tempWord = currentWord + letter;
+            genPasswords.add(new Passwords(tempWord));
+            System.out.println(tempWord);
+            if (continueIteration(tempWord)) {
+                computeWords(tempWord, usedLetters, genPasswords);
+            }
+            System.out.println(tempWord);
+        }
+    }
+
+    private boolean continueIteration(String currentWord) {
+        boolean canContinue = false;
+
+        if (currentWord.length() + 1 <= maxLength) {
+            canContinue = true;
+        }
+
+        return canContinue;
     }
 
     private void initiateOptions() {

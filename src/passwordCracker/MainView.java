@@ -15,7 +15,7 @@ public class MainView extends JFrame {
     private boolean selectionOS, selectionLib;
 
     //Labels
-    private JLabel importStatusLabel;
+    private JLabel importStatusLabel, crackPassErrorLabel;
 
     public MainView(Controller controller) {
         this.controller = controller;
@@ -99,8 +99,12 @@ public class MainView extends JFrame {
         pasteSetButton.addActionListener(event -> openPasteSettings());
         importButton.addActionListener(event -> importLibrary());
 
-        c.gridy = 9;
+        c.gridy = 8;
         mainPanel.add(crackPassButton, c);
+
+        crackPassErrorLabel = new JLabel(" ");
+        c.gridy = 9;
+        mainPanel.add(crackPassErrorLabel);
 
         setContentPane(new JPanel(new BorderLayout()));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -108,12 +112,22 @@ public class MainView extends JFrame {
     }
 
     private void crackPasswords() {
+        crackPassErrorLabel.setText("");
         if (selectionLib) {
             ArrayList<Boolean> checkBoxes = genSubView.getCheckBoxes(); //Gift wrapped selections from genSubView
             controller.transferGenerationSettingChoices(genSubView.getCheckBoxes(), genSubView.getTextBoxes());
+            controller.crackPasswords(selectionLib, selectionOS);
+            crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
         } else {
+            if (!controller.getLibImportStatus()) {
+                crackPassErrorLabel.setText("ERROR: LIBRARY NOT IMPORTED");
+            } else {
+                controller.crackPasswords(selectionLib, selectionOS);
+                crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
+            }
 
         }
+
     }
 
     private void importLibrary() {

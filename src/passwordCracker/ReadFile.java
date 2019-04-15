@@ -1,8 +1,12 @@
 package passwordCracker;
 
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReadFile {
 
@@ -43,6 +47,31 @@ public class ReadFile {
     public boolean getFileReadStatus() {
 
         return fileRead;
+    }
+
+    public void writeToFile(String fileName, boolean clearFile, ArrayList<Passwords> passwords) {
+        if (clearFile) {
+            PrintWriter write;
+
+            try {
+                write = new PrintWriter(fileName);
+                write.close();
+                //System.out.println("Cleared File");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ReadFile.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Error with clearing a file!!!!");
+            }
+        }
+
+        try {
+            Formatter formatter = new Formatter(fileName);
+            passwords.forEach((password) -> {
+                formatter.format("%s", password.getPassword());
+                //System.out.println("Wrote to file");
+            });
+        } catch (FileNotFoundException e) {
+            System.out.println("Error with writing to file!!!!!");
+        }
     }
 
     /*
