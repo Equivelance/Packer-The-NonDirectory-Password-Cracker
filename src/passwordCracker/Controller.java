@@ -26,8 +26,8 @@ public class Controller {
         passModel.getGenPass().siftGenInfo(checkBoxes, textBoxes);
     }
 
-    public void crackPasswords(boolean genLibrary, boolean isWindows) {
-        passModel.crackPassword(genLibrary, isWindows);
+    public void crackPasswords(boolean genLibrary, boolean isWindows, ArrayList<Boolean> pasteChoices, ArrayList<String> pasteFields) {
+        passModel.crackPassword(genLibrary, isWindows, pasteChoices, pasteFields);
     }
 
 }

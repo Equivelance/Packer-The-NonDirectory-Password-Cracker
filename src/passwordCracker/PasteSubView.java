@@ -2,6 +2,12 @@ package passwordCracker;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -12,10 +18,12 @@ import javax.swing.JTextField;
 
 public class PasteSubView extends JFrame {
 
-    private JCheckBox show1, show2, show3, show4, show5, show6;
+    private JCheckBox show1, show2, show3, show4;
     private JButton setPassButton, setUserNameButton;
     private JTextField pasteDelayText, knownUserName, choosePasswordsText;
-    private JLabel label1, labelPassXY, label2, label3, labelUserNameXY, label4, label5;
+    private JLabel label1, labelPassXY, label2, label3, labelUserNameXY, label4, label5, errorLabel;
+    private boolean isPressDelay, isPressPassXY, isPressUser, isPressSpecPass;
+    private int passX, passY, userX, userY;
 
     public PasteSubView() {
         createWindow();
@@ -33,12 +41,13 @@ public class PasteSubView extends JFrame {
         mainPanel.add(show1);
         pasteDelayText = new JTextField(15);
         mainPanel.add(pasteDelayText);
-        label1 = new JLabel(" ");
+        label1 = new JLabel(" "); //Just a blank label to fill space
         mainPanel.add(label1);
 
         show2 = new JCheckBox("Password X,Y");
         mainPanel.add(show2);
-        setPassButton = new JButton("Click to set position");
+        setPassButton = new JButton("Click and Move Mouse");
+        setPassButton.addActionListener(event -> setXY(labelPassXY, passX, passY));
         mainPanel.add(setPassButton);
         labelPassXY = new JLabel("X,Y");
         mainPanel.add(labelPassXY);
@@ -53,9 +62,11 @@ public class PasteSubView extends JFrame {
         //subSection
         label3 = new JLabel(" ");
         mainPanel.add(label3);
-        setUserNameButton = new JButton("Click to Set Position");
+        setUserNameButton = new JButton("Click and Move Mouse");
+        setUserNameButton.addActionListener(event -> setXY(labelUserNameXY, userX, userY));
         mainPanel.add(setUserNameButton);
         labelUserNameXY = new JLabel("X,Y");
+
         mainPanel.add(labelUserNameXY);
 
         show4 = new JCheckBox("Specific Passwords");
@@ -70,48 +81,111 @@ public class PasteSubView extends JFrame {
         JButton saveSetButton = new JButton("Save Settings");
         saveSetButton.addActionListener(event -> saveSettings());
         mainPanel.add(saveSetButton);
+        
+        errorLabel = new JLabel(" ");
+        mainPanel.add(errorLabel);
+
+        event e = new event();
+        show1.addItemListener(e);
+        show2.addItemListener(e);
+        show3.addItemListener(e);
+        show4.addItemListener(e);
 
         setContentPane(new JPanel(new BorderLayout()));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
         //System.out.println("Initialized PasteSettings");
     }
 
-    //COPY SAVE SETTINGS CODE FROM GENERATION VIEW
+    public class event implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            isPressDelay = show1.isSelected();
+            isPressPassXY = show2.isSelected();
+            isPressUser = show3.isSelected();
+            isPressSpecPass = show4.isSelected();
+        }
+    }
+
+    private void setXY(JLabel label, int x, int y) {
+
+        try {
+            TimeUnit.SECONDS.sleep((long) 5);
+        } catch (InterruptedException ex) {
+            System.out.println("\n\nERROR: Problem with paste delay settings " + ex);
+        }
+        Point p = MouseInfo.getPointerInfo().getLocation();
+        x = (int) p.x;
+        y = (int) p.y;
+        String coords = x + "," + y;
+
+        System.out.println(coords);
+
+        label.setText(coords);
+
+    }
+
     public void saveSettings() {
         boolean hasError = false;
-        String errorMessage = "Please Re-Enter ";
+        String errorMessage = "ERROR! ";
+        String blankMessage = "There areChecked blank boxes;";
 
-        if (Pattern.matches("[a-zA-Z]+", pasteDelayText.getText())) {
-            hasError = true;
-            errorMessage += "Paste Delay; ";
+        if (isPressDelay) {
+            if (pasteDelayText.getText().equals("")) {
+                hasError = true;
+                errorMessage += blankMessage;
+            }
+
+            if (Pattern.matches("[a-zA-Z]+", pasteDelayText.getText())) {
+                hasError = true;
+                errorMessage += "Paste Delay; ";
+            }
         }
 
-        /*
-        if (isPress2) {
-            String[] tempKnown = knownCharsText.getText().split(",");
-            for (int i = 0; i < tempKnown.length; i++ ) {
-                if (tempKnown[i].length() > Integer.parseInt(maxPassLenText.getText())) {
-                    hasError = true;
-                    errorMessage += "Known Characters; ";
-                }
+        if (isPressPassXY) {
+            if (labelPassXY.getText().equals("X,Y")) {
+                hasError = true;
+                errorMessage += "Set X,Y for Password; ";
+            }
+        }
+        
+        if (isPressUser) {
+            if (labelUserNameXY.getText().equals("X,Y")) {
+                hasError = true;
+                errorMessage += "Set X,Y for Password; ";
+            }
+            if (knownUserName.getText().equals("")) {
+                hasError = true;
+                errorMessage += blankMessage;
             }
         }
        
-        String[] tempIgnore = usedCharsText.getText().split(",");
-        for (int i = 0; i < tempIgnore.length; i++ ) {
-            if (tempIgnore[i].length() > 1 ) {
-                hasError = true;
-                errorMessage += "Used Characters Text: ";
-            }
-        }
-         */
         if (hasError) {
-            //errorLabel.setText(errorMessage);
-            //System.out.println(errorMessage); //DEBUG
+            errorLabel.setText(errorMessage);
+            
         } else {
-            //errorLabel.setText(" ");
+            errorLabel.setText(" ");
             dispose();
         }
+    }
+    
+    public ArrayList<Boolean> getCheckBoxes() {
+        ArrayList<Boolean> checkBoxes = new ArrayList<>();
+        checkBoxes.add(isPressDelay);
+        checkBoxes.add(isPressPassXY);
+        checkBoxes.add(isPressUser);
+        checkBoxes.add(isPressSpecPass);
+        return checkBoxes;
+    }
+    
+    public ArrayList<String> getTextBoxesAndLabels() {
+        ArrayList<String> tb = new ArrayList<>();
+        tb.add(pasteDelayText.getText());
+        tb.add(labelPassXY.getText());
+        tb.add(knownUserName.getText());
+        tb.add(labelUserNameXY.getText());
+        tb.add(choosePasswordsText.getText());
+        return tb;
     }
 
 }

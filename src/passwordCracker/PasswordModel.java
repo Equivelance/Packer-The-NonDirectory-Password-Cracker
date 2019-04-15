@@ -15,6 +15,7 @@ public class PasswordModel {
         readFile = new ReadFile();
         genPass = new GeneratePassword(readFile);
         pastePass = new PastePassword();
+        passwordList = new ArrayList<>();
     }
 
     public ReadFile getReadFile() {
@@ -24,14 +25,19 @@ public class PasswordModel {
         return readFile;
     }
 
-    public void crackPassword(boolean genPassBool, boolean isWindowsBool) {
+    public void crackPassword(boolean genPassBool, boolean isWindowsBool, ArrayList<Boolean> pasteChoices, ArrayList<String> pasteFields) {
         if (genPassBool) {
+
             if (!passwordList.isEmpty()) {
                 passwordList.clear();
             }
 
             passwordList.addAll(genPass.generatePasswords());
         }
+
+        System.out.println("\n-----------------( Finished Skimming Passwords )-----------------\n\n");  //DEBUG
+        pastePass.siftSettings(isWindowsBool, pasteChoices, pasteFields);
+        pastePass.crackPassword(passwordList);
         
     }
 
@@ -49,4 +55,5 @@ public class PasswordModel {
     public GeneratePassword getGenPass() {
         return genPass;
     }
+    
 }

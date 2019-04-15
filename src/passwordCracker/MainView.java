@@ -113,21 +113,27 @@ public class MainView extends JFrame {
 
     private void crackPasswords() {
         crackPassErrorLabel.setText("");
+        boolean continueCrack = false;
+        
         if (selectionLib) {
-            ArrayList<Boolean> checkBoxes = genSubView.getCheckBoxes(); //Gift wrapped selections from genSubView
+            //Gift wrapped selections from genSubView
             controller.transferGenerationSettingChoices(genSubView.getCheckBoxes(), genSubView.getTextBoxes());
-            controller.crackPasswords(selectionLib, selectionOS);
-            crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
+            continueCrack = true;
+            crackPassErrorLabel.setText("Generating Passwords!");
+            System.out.println("\nGenerating Passwords... This may take awhile\n");
+            
         } else {
             if (!controller.getLibImportStatus()) {
                 crackPassErrorLabel.setText("ERROR: LIBRARY NOT IMPORTED");
             } else {
-                controller.crackPasswords(selectionLib, selectionOS);
-                crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
+                continueCrack = true;
             }
-
         }
-
+        
+        if (continueCrack) {
+            controller.crackPasswords(selectionLib, selectionOS, pasteSubView.getCheckBoxes(), pasteSubView.getTextBoxesAndLabels());
+            crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
+        }
     }
 
     private void importLibrary() {

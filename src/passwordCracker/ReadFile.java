@@ -66,9 +66,10 @@ public class ReadFile {
         try {
             Formatter formatter = new Formatter(fileName);
             passwords.forEach((password) -> {
-                formatter.format("%s", password.getPassword());
+                formatter.format("%s%n", password.getPassword()); //Adds each word from the list to a new line in a text document
                 //System.out.println("Wrote to file");
             });
+            formatter.close();
         } catch (FileNotFoundException e) {
             System.out.println("Error with writing to file!!!!!");
         }

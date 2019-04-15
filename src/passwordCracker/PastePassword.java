@@ -6,36 +6,53 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class PastePassword {
-
+    
+    boolean isWindows, isPasteDelay, isPressPassXY, isPressUser, isPressSpecPass;
+    int pasteDelayTime;
+    
+    
     public PastePassword() {
-
+        isWindows = true;
     }
+    
+    //FINISH THIS AND MAKE SUURE PASTE SETTINGS HAVE CORRECT INPUT BOUNDRIES
+    public void siftSettings(boolean isWindows, ArrayList<Boolean> cb, ArrayList<String> tb) {
+        
+        this.isWindows = isWindows;
+        
+        if (cb.get(0)) { //Has paste delay
+            
+        }
+        this.isPasteDelay = cb.get(0);
+        this.isPressPassXY = cb.get(1);
+        this.isPressUser = cb.get(2);
+        this.isPressSpecPass = cb.get(3);
+        
+    }
+    
+    public boolean crackPassword(ArrayList<Passwords> passwords) {
+        for (Passwords pass : passwords) {
+            
+        }
+        
+        return true;
+    }
+    
 
-    public void leftClick(Robot robot) {
+    private void leftClick(Robot robot) {
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 
-    public void doubleClick(Robot robot) {
-        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-    }
-
-    public void singleClick(Robot robot) {
-        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-    }
-
-    public static void setMousePos(Robot robot, int xSet, int ySet) {
+    private static void setMousePos(Robot robot, int xSet, int ySet) {
 
     }
 
-    public static void copyPaste(Robot robot, String word) {
+    private static void copyPaste(Robot robot, String word) {
         StringSelection stringSelection = new StringSelection(word);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
@@ -52,7 +69,7 @@ public class PastePassword {
         robot.keyRelease(KeyEvent.VK_V);
     }
 
-    public static void timeDelay(long time) {
+    private static void timeDelay(long time) {
 
         try {
             TimeUnit.SECONDS.sleep(time);
@@ -61,7 +78,11 @@ public class PastePassword {
         }
     }
 
-    public static void selectDel(Robot robot) {
+    /*
+    
+    //WILL BE USED IN FUTURE VERSIONS 
+    
+    private static void selectDel(Robot robot) {
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
@@ -82,5 +103,5 @@ public class PastePassword {
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
-
+*/ 
 }

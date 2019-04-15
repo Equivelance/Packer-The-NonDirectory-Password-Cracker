@@ -1,7 +1,6 @@
 package passwordCracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GeneratePassword {
 
@@ -18,7 +17,6 @@ public class GeneratePassword {
         this.readFile = readFile;
         minLength = 0;  //Default Minimum Length
         maxLength = 15; //Default Maximum Length
-
     }
 
     public void siftGenInfo(ArrayList<Boolean> checkBoxes, ArrayList<String> textBoxes) {
@@ -53,44 +51,45 @@ public class GeneratePassword {
             usedLetters.add(tempWord);
         }
 
+        /*
         if (knownChars != null) {
             usedLetters.addAll(Arrays.asList(knownChars));
         }
-
+         */
         String currentWord = "";
 
         computeWords(currentWord, usedLetters, genPasswords);
 
-        /*
-        while (currentWord.length() < maxLength) {
-            computeWords(currentWord, usedLetters, genPasswords);
-        }
-         */
-        if (minLength != 0) {
-
-        }
-
-        if (passwordFormat != null) {
-
-        }
-
         if (savePassList) {
             readFile.writeToFile("passwords.txt", true, genPasswords);
         }
-
+        
         return genPasswords;
     }
 
-    private void computeWords(String currentWord, ArrayList<String> usedLetters, ArrayList<Passwords> genPasswords) {
-        for (String letter : usedLetters) {
-            String tempWord = currentWord + letter;
-            genPasswords.add(new Passwords(tempWord));
-            System.out.println(tempWord);
-            if (continueIteration(tempWord)) {
-                computeWords(tempWord, usedLetters, genPasswords);
+   
+    private void computeWords(String currentWord, ArrayList<String> usedLetters, ArrayList<Passwords> genPasswords) { //Uses recursion to find every possible value between the max and min length
+
+        usedLetters.stream().map((letter) -> currentWord + letter).map((tempWord) -> {
+            if (knownChars != null) {
+                boolean isContained = false;    //Despite knowing the word, it still takes a large amount of time as it checks every possibilty that contains the desired char patterns
+                for (String word : knownChars) {
+                    if (tempWord.contains(word)) {
+                        isContained = true;
+                    }
+                }
+                if (isContained) {
+                    genPasswords.add(new Passwords(tempWord));
+                    System.out.println(tempWord);
+                }
+            } else if (tempWord.length() >= minLength) {
+                genPasswords.add(new Passwords(tempWord));
             }
-            System.out.println(tempWord);
-        }
+            //System.out.println(tempWord);
+            return tempWord;
+        }).filter((tempWord) -> (continueIteration(tempWord))).forEachOrdered((tempWord) -> {
+            computeWords(tempWord, usedLetters, genPasswords); // tempWord replaces currentWord when the method recurs from the second to the nth time
+        });
     }
 
     private boolean continueIteration(String currentWord) {
@@ -101,10 +100,6 @@ public class GeneratePassword {
         }
 
         return canContinue;
-    }
-
-    private void initiateOptions() {
-
     }
 
     private char[] getAllChars() {
