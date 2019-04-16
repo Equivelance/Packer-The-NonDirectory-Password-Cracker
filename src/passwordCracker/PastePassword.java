@@ -36,7 +36,6 @@ public class PastePassword {
 
     }
 
-    //FINISH THIS AND MAKE SUURE PASTE SETTINGS HAVE CORRECT INPUT BOUNDRIES
     public void siftSettings(boolean isWindows, ArrayList<Boolean> cb, ArrayList<String> tb) {
 
         this.isWindows = isWindows;
