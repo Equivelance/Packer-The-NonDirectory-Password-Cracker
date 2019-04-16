@@ -63,11 +63,10 @@ public class GeneratePassword {
         if (savePassList) {
             readFile.writeToFile("passwords.txt", true, genPasswords);
         }
-        
+
         return genPasswords;
     }
 
-   
     private void computeWords(String currentWord, ArrayList<String> usedLetters, ArrayList<Passwords> genPasswords) { //Uses recursion to find every possible value between the max and min length
 
         usedLetters.stream().map((letter) -> currentWord + letter).map((tempWord) -> {

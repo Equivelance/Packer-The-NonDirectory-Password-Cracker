@@ -71,20 +71,20 @@ public class PasteSubView extends JFrame {
 
         show4 = new JCheckBox("Specific Passwords");
         mainPanel.add(show4);
-        choosePasswordsText = new JTextField("0-100", 50);
+        choosePasswordsText = new JTextField("100", 50);
         mainPanel.add(choosePasswordsText);
         label4 = new JLabel(" ");
         mainPanel.add(label4);
-        
+
         showEnter = new JCheckBox("Hit Enter After Password");
         mainPanel.add(showEnter);
-        
+
         label5 = new JLabel(" ");
         mainPanel.add(label5);
 
         showDelete = new JCheckBox("Delete Before Next Password");
         mainPanel.add(showDelete);
-        
+
         label6 = new JLabel(" ");
         mainPanel.add(label6);
         JButton saveSetButton = new JButton("Save Settings");
