@@ -18,11 +18,11 @@ import javax.swing.JTextField;
 
 public class PasteSubView extends JFrame {
 
-    private JCheckBox show1, show2, show3, show4;
+    private JCheckBox show1, show2, show3, show4, showEnter, showDelete;
     private JButton setPassButton, setUserNameButton;
     private JTextField pasteDelayText, knownUserName, choosePasswordsText;
-    private JLabel label1, labelPassXY, label2, label3, labelUserNameXY, label4, label5, errorLabel;
-    private boolean isPressDelay, isPressPassXY, isPressUser, isPressSpecPass;
+    private JLabel label1, labelPassXY, label2, label3, labelUserNameXY, label4, label5, errorLabel, label6;
+    private boolean isPressDelay, isPressPassXY, isPressUser, isPressSpecPass, isPressEnter, isPressDelete;
     private int passX, passY, userX, userY;
 
     public PasteSubView() {
@@ -35,7 +35,7 @@ public class PasteSubView extends JFrame {
         setLocationRelativeTo(null);  // center the frame
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel mainPanel = new JPanel(new GridLayout(6, 3));
+        JPanel mainPanel = new JPanel(new GridLayout(7, 3));
 
         show1 = new JCheckBox("Paste Delay");
         mainPanel.add(show1);
@@ -75,9 +75,18 @@ public class PasteSubView extends JFrame {
         mainPanel.add(choosePasswordsText);
         label4 = new JLabel(" ");
         mainPanel.add(label4);
-
+        
+        showEnter = new JCheckBox("Hit Enter After Password");
+        mainPanel.add(showEnter);
+        
         label5 = new JLabel(" ");
         mainPanel.add(label5);
+
+        showDelete = new JCheckBox("Delete Before Next Password");
+        mainPanel.add(showDelete);
+        
+        label6 = new JLabel(" ");
+        mainPanel.add(label6);
         JButton saveSetButton = new JButton("Save Settings");
         saveSetButton.addActionListener(event -> saveSettings());
         mainPanel.add(saveSetButton);
@@ -90,6 +99,8 @@ public class PasteSubView extends JFrame {
         show2.addItemListener(e);
         show3.addItemListener(e);
         show4.addItemListener(e);
+        showEnter.addItemListener(e);
+        showDelete.addItemListener(e);
 
         setContentPane(new JPanel(new BorderLayout()));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -104,6 +115,8 @@ public class PasteSubView extends JFrame {
             isPressPassXY = show2.isSelected();
             isPressUser = show3.isSelected();
             isPressSpecPass = show4.isSelected();
+            isPressEnter = showEnter.isSelected();
+            isPressDelete = showDelete.isSelected();
         }
     }
 
@@ -175,6 +188,8 @@ public class PasteSubView extends JFrame {
         checkBoxes.add(isPressPassXY);
         checkBoxes.add(isPressUser);
         checkBoxes.add(isPressSpecPass);
+        checkBoxes.add(isPressEnter);
+        checkBoxes.add(isPressDelete);
         return checkBoxes;
     }
 
