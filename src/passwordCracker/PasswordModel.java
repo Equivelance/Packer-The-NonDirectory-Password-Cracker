@@ -1,6 +1,9 @@
 package passwordCracker;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PasswordModel {
 
@@ -14,7 +17,11 @@ public class PasswordModel {
     public PasswordModel() {
         readFile = new ReadFile();
         genPass = new GeneratePassword(readFile);
-        pastePass = new PastePassword();
+        try {
+            pastePass = new PastePassword();
+        } catch (AWTException ex) {
+            System.out.println("Error with your password paster!!!");;
+        }
         passwordList = new ArrayList<>();
     }
 
@@ -38,7 +45,7 @@ public class PasswordModel {
         System.out.println("\n-----------------( Finished Skimming Passwords )-----------------\n\n");  //DEBUG
         pastePass.siftSettings(isWindowsBool, pasteChoices, pasteFields);
         pastePass.crackPassword(passwordList);
-        
+
     }
 
     private void importPasswordList() { //Put into a separate method for organization
@@ -55,5 +62,5 @@ public class PasswordModel {
     public GeneratePassword getGenPass() {
         return genPass;
     }
-    
+
 }

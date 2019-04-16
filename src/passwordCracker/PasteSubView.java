@@ -81,7 +81,7 @@ public class PasteSubView extends JFrame {
         JButton saveSetButton = new JButton("Save Settings");
         saveSetButton.addActionListener(event -> saveSettings());
         mainPanel.add(saveSetButton);
-        
+
         errorLabel = new JLabel(" ");
         mainPanel.add(errorLabel);
 
@@ -148,7 +148,7 @@ public class PasteSubView extends JFrame {
                 errorMessage += "Set X,Y for Password; ";
             }
         }
-        
+
         if (isPressUser) {
             if (labelUserNameXY.getText().equals("X,Y")) {
                 hasError = true;
@@ -159,17 +159,17 @@ public class PasteSubView extends JFrame {
                 errorMessage += blankMessage;
             }
         }
-       
+
         if (hasError) {
             errorLabel.setText(errorMessage);
-            
+
         } else {
             errorLabel.setText(" ");
             dispose();
         }
     }
-    
-    public ArrayList<Boolean> getCheckBoxes() {
+
+    public ArrayList<Boolean> getCheckBoxes() { //Check Boxes
         ArrayList<Boolean> checkBoxes = new ArrayList<>();
         checkBoxes.add(isPressDelay);
         checkBoxes.add(isPressPassXY);
@@ -177,8 +177,8 @@ public class PasteSubView extends JFrame {
         checkBoxes.add(isPressSpecPass);
         return checkBoxes;
     }
-    
-    public ArrayList<String> getTextBoxesAndLabels() {
+
+    public ArrayList<String> getTextBoxesAndLabels() { //TextBoxes
         ArrayList<String> tb = new ArrayList<>();
         tb.add(pasteDelayText.getText());
         tb.add(labelPassXY.getText());
