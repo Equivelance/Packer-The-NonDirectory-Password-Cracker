@@ -132,6 +132,7 @@ public class MainView extends JFrame {
             controller.crackPasswords(selectionLib, selectionOS, pasteSubView.getCheckBoxes(), pasteSubView.getTextBoxesAndLabels());
             crackPassErrorLabel.setText("Press 'spacebar' to stop crack");
             System.out.println("\n\nPress 'spacebar' to stop crack\n");
+            System.out.println("You will not be able to exit until program is finished\n\n");
         }
     }
 
