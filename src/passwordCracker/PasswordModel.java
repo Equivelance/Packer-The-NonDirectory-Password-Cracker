@@ -20,7 +20,7 @@ public class PasswordModel {
         try {
             pastePass = new PastePassword();
         } catch (AWTException ex) {
-            System.out.println("Error with your password paster!!!");;
+            Logger.getLogger(PasswordModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         passwordList = new ArrayList<>();
     }
